@@ -1,4 +1,4 @@
-# PWA Workshop
+# PWA Workshop Solutions
 
 This repository contains solutions for the Progressive Web App Introductory Workshop found [here.](https://docs.pwabuilder.com/#/home/pwa-workshop)
 
