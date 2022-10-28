@@ -34,8 +34,8 @@ export class AppNotification extends LitElement {
 
   private displayNotification() {
     const notifTitle = "Hi";
-    const notifBody = "It's time to drink some water 💦";
-    const notifImg = `assets/media/toast.jpg`;
+    const notifBody = "It's time to drink some water 💧🥤";
+    const notifImg = "/assets/media/toast.jpg";
     const options = {
       body: notifBody,
       icon: notifImg,

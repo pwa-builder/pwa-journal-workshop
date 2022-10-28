@@ -2,10 +2,7 @@ importScripts(
   'https://storage.googleapis.com/workbox-cdn/releases/6.4.1/workbox-sw.js'
 );
 
-import { clientsClaim } from 'workbox-core';
-
 self.skipWaiting();
-clientsClaim();
 
 workbox.precaching.cleanupOutdatedCaches();
 
@@ -13,6 +10,8 @@ console.log("hello world");
 
 self.addEventListener('push', function(event) {
   const data = JSON.parse(event.data.text());
+  console.log("push notification heard.");
+  console.log("data", data);
 
   event.waitUntil(
     registration.showNotification(data.title, {

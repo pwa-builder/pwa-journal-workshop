@@ -26,6 +26,12 @@
     <link rel="manifest" href="/manifest.json" />
 
     <script type="module" src="https://unpkg.com/@fluentui/web-components" crossorigin="anonymous"></script>
+    <!-- light mode and dark mode CSS -->
+    <link rel="stylesheet" media="(prefers-color-scheme:light)"
+      href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.0.0-beta.73/dist/themes/light.css">
+    <link rel="stylesheet" media="(prefers-color-scheme:dark)"
+      href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.0.0-beta.73/dist/themes/dark.css"
+      onload="document.documentElement.classList.add('sl-theme-dark');">
 
     <script type="module" src="/src/app-index.ts"></script>
   </head>
@@ -35,5 +41,13 @@
     <fluent-design-system-provider>
       <app-index></app-index>
     </fluent-design-system-provider>
+
+    <script>
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register(
+          '/sw.js'
+        );
+      }
+    </script>
   </body>
 </html>

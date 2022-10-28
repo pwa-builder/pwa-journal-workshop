@@ -18,8 +18,6 @@ export default defineConfig({
           '**/*.{html,js,css,svg,png,webp,jpg}',
         ],
       },
-      registerType: 'autoUpdate',
-      manifest: false,
       devOptions: {
         enabled: true
       }
