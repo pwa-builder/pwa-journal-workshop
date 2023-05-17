@@ -7,8 +7,8 @@ import { dbName, getLast7Days, seedLocalStorage } from '../utils/journal';
 // For more info on the @pwabuilder/pwainstall component click here https://github.com/pwa-builder/pwa-install
 // import '@pwabuilder/pwainstall';
 
-@customElement('app-home')
-export class AppHome extends LitElement {
+@customElement('app-journal')
+export class AppJournal extends LitElement {
 
   // For more information on using properties and state in lit
   // check out this link https://lit.dev/docs/components/properties/
@@ -28,41 +28,23 @@ export class AppHome extends LitElement {
         padding: 0 48px;
         overflow-x: hidden;
         position: relative;
+        flex: 1;
       }
 
       .hero__inner {
         display: flex;
         flex-direction: column;
         position: relative;
-        max-width: 800px;
+        max-width: 1200px;
         margin-left: auto;
         margin-right: auto;
       }
 
       .hero__top-content {
-        flex: 1 1 0px;
         color: white;
-        margin: 4rem 5rem 0;
+        margin: 1rem 3rem 0;
         text-align: center;
         max-height: 25vh;
-      }
-
-      .hero__top-content h1 {
-        font-weight: normal;
-        font-size: 48px;
-      }
-
-      .hero__top-content fluent-anchor {
-        margin-top: 1rem;
-      }
-
-      .hero__top-content fluent-anchor::part(control) {
-        border-radius: 15px;
-        color: #107652;
-      }
-
-      .hero__top-content fluent-anchor::part(control):hover {
-        color: #2E765E;
       }
 
       .hero__top-content .entries {
@@ -72,21 +54,33 @@ export class AppHome extends LitElement {
         max-height: 50vh;
       }
 
-      .hero__top-content .entries fluent-accordion-item.main-accordion {
+      .hero__top-content .entries fluent-card.main-card {
         height: fit-content;
         -webkit-backdrop-filter: blur(20px);
         background: none;
         backdrop-filter: blur(20px);
         background-color: rgba(255,255,255,.3);
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
       }
 
-      .hero__top-content .entries fluent-accordion-item.main-accordion::part(heading) {
-        font-size: 1rem;
-        font-weight: 200;
-      }
-
-      .hero__top-content .entries fluent-accordion-item.main-accordion fluent-accordion-item.child-accordion {
+      .hero__top-content .entries fluent-card.main-card fluent-card.child-card {
+        width: 300px;
+        height: 200px;
+        overflow: hidden auto;
+        margin: 1em;
         background-color: rgb(216, 167, 177, 0.3);
+      }
+
+      .hero__top-content .entries fluent-card.main-card fluent-card.child-card .date {
+        line-height: 3em;
+        background-color: rgb(216, 167, 177, 0.6);
+      }
+
+      .hero__top-content .entries fluent-card.main-card fluent-accordion-item.child-accordion {
+        background-color: rgb(216, 167, 177, 0.3);
+        border-radius: 0;
       }
 
       .hero__top-content .entries fluent-accordion-item::part(region) {
@@ -101,14 +95,8 @@ export class AppHome extends LitElement {
         text-align: left;
       }
 
-      .hero__bottom-content {
-        flex: 1 1 0px;
-        height: 50vh;
-      }
-
-      .hero__bottom-content img {
-        width: 100%;
-        height: 100%;
+      .hero__top-content .entries fluent-card .panel p {
+        margin: 1em;
       }
 
       @media screen and (max-width: 840px) and (min-width: 625px) {
@@ -121,31 +109,15 @@ export class AppHome extends LitElement {
         .hero__top-content {
           margin: 2rem 2rem 0px;
         }
-
-        .hero__bottom-content {
-          margin-top: 7rem;
-        }
       }
 
       @media screen and (max-width: 480px) {
-        header {
-          margin: 0 2rem;
-        }
-
         .hero {
           padding: 0 1rem;
         }
 
         .hero__top-content {
           margin: 1rem 0;
-        }
-
-        .hero__top-content h1 {
-          font-size: 36px;
-        }
-
-        .hero__bottom-content {
-          margin-top: 7rem;
         }
       }
     `;
@@ -190,50 +162,40 @@ export class AppHome extends LitElement {
 
   render() {
     return html`
-      <app-header enableBack="${true}"></app-header>
+      <app-menu enableBack="${true}"></app-menu>
       <div class="hero">
         <hero-decor></hero-decor>
         <!-- <pwa-install>Install Repose</pwa-install> -->
         <div class="hero__inner">
           <div class="hero__top-content">
-            <h1>Intelligent Daily Mood Journal</h1>
-            <p>Repose is your personal mood tracking companion that helps you organize and reflect upon your daily thoughts.</p>
-            <fluent-anchor href="/journal" appearance="lightweight">Mood check-in</fluent-anchor>
             <div class="entries">
-              <fluent-accordion-item class="main-accordion">
-                <span slot="heading">See your past journals</span>
-                <div class="panel">
-                  ${this.renderEntries(this.last7DaysJournal ? this.last7DaysJournal : [])}
-                </div>
-              </fluent-accordion-item>
+              <fluent-card class="main-card">
+                ${this.renderEntries(this.last7DaysJournal ? this.last7DaysJournal : [])}
+              </fluent-card>
             </div>
-          </div>
-          <div class="hero__bottom-content">
-          <img src="assets/media/humans.svg" alt="Humans">
           </div>
         </div>
       </div>
-      <app-footer></app-footer>
     `;
   }
 
   renderEntries(entries: JournalEntry[][]) {
     return html`
       ${entries.map((entry: JournalEntry[]) => html`
-        <fluent-accordion-item class="child-accordion">
-          <span slot="heading">${entry&&entry[0].date ? `📆 Your thoughts from ${entry[0].date}` : 'Today'}</span>
+        <fluent-card class="child-card">
+          <div class="date">${entry&&entry[0].date ? `📆${entry[0].date}` : 'Today'}</div>
           <div class="panel">
             ${entry ? entry.map((entry: JournalEntry) => html`
               <fluent-accordion-item class="child-accordion">
-                <span slot="heading">${entry&&entry.time ? `📝 At ${entry.time} you wrote:` : ''}</span>
+                <span slot="heading">${entry&&entry.time ? `📝 Your notes at ${entry.time}` : ''}</span>
                 <div class="panel">
                 <p class="panel__title">${entry&&entry.title ? entry.title : ''}</p>
                 <p class="panel__body">${entry&&entry.entry ? entry.entry : ''}</p>
                 </div>
               </fluent-accordion-item>
-            `) : 'Start journaling by clicking the "mood check-in" button 👆🏼'}
+            `) : html`<p>Start journaling by clicking the "mood check-in" button on the Home page</p>`}
           </div>
-        </fluent-accordion-item>
+        </fluent-card>
       `)}
     `;
   }

@@ -7,3 +7,4 @@ build
 types
 .idea
 .github
+.env

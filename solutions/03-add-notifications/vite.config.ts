@@ -3,9 +3,11 @@ import { VitePWA } from 'vite-plugin-pwa';
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  base: "/",
   build: {
     sourcemap: true,
     assetsDir: "code",
+    target: ["esnext", "edge100", "firefox100", "chrome100", "safari18"],
   },
   plugins: [
     VitePWA({
@@ -15,9 +17,11 @@ export default defineConfig({
         swDest: 'dist/sw.js',
         globDirectory: 'dist',
         globPatterns: [
-          '**/*.{html,js,css,svg,png,webp,jpg}',
+          '**/*.{html,js,css,json,png,webp,jpg}',
         ],
       },
+      injectRegister: false,
+      manifest: false,
       devOptions: {
         enabled: true
       }
