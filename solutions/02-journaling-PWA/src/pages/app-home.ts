@@ -1,8 +1,5 @@
 import { LitElement, css, html } from 'lit';
-import { property, customElement, state } from 'lit/decorators.js';
-import localforage from 'localforage';
-import { JournalEntry } from '../interfaces/journalEntry';
-import { dbName, getLast7Days, seedLocalStorage } from '../utils/journal';
+import { property, customElement } from 'lit/decorators.js';
 
 // For more info on the @pwabuilder/pwainstall component click here https://github.com/pwa-builder/pwa-install
 // import '@pwabuilder/pwainstall';
@@ -13,9 +10,6 @@ export class AppHome extends LitElement {
   // For more information on using properties and state in lit
   // check out this link https://lit.dev/docs/components/properties/
   @property() message = 'Welcome!';
-  @property() journalDB: any;
-  @property() last7Days = getLast7Days();
-  @state() private last7DaysJournal!: any;
 
   static get styles() {
     return css`
